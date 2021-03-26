@@ -1,9 +1,11 @@
 package ciede2000
 
 import (
-	"github.com/stretchr/testify/assert"
-	"github.com/zarken-go/colorspace"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+
+	"github.com/zarken-go/colorspace"
 )
 
 const (
