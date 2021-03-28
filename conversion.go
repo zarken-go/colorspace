@@ -5,9 +5,9 @@ import (
 )
 
 type RGB struct {
-	Red   int
-	Green int
-	Blue  int
+	Red   uint8
+	Green uint8
+	Blue  uint8
 }
 
 type SRGB struct {
@@ -30,14 +30,29 @@ type Lab struct {
 
 func IntToRGB(color int) RGB {
 	return RGB{
-		Red:   (color >> 16) & 0xff,
-		Green: (color >> 8) & 0xff,
-		Blue:  (color) & 0xff,
+		Red:   uint8(color >> 16) & 0xff,
+		Green: uint8(color >> 8) & 0xff,
+		Blue:  uint8(color) & 0xff,
+	}
+}
+
+func UInt32ToRGB(color uint32) RGB {
+	return RGB{
+		Red:   uint8(color >> 16) & 0xff,
+		Green: uint8(color >> 8) & 0xff,
+		Blue:  uint8(color) & 0xff,
 	}
 }
 
 func IntToLab(color int, observer Illuminant) Lab {
 	return IntToRGB(color).
+		ToSRGB().
+		ToXYZ().
+		ToLab(observer)
+}
+
+func UInt32ToLab(color uint32, observer Illuminant) Lab {
+	return UInt32ToRGB(color).
 		ToSRGB().
 		ToXYZ().
 		ToLab(observer)
@@ -51,7 +66,7 @@ func (RGB RGB) ToSRGB() SRGB {
 	}
 }
 
-func rgbToSRGBStep(value int) float64 {
+func rgbToSRGBStep(value uint8) float64 {
 	f := float64(value) / 255
 	if f <= 0.03928 {
 		return f / 12.92

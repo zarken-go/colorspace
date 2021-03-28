@@ -19,7 +19,7 @@ func New(m map[uint32]int) Palette {
 	var p Palette
 
 	for color, count := range m {
-		lab := colorspace.IntToLab(int(color), colorspace.IlluminantDefault)
+		lab := colorspace.UInt32ToLab(color, colorspace.IlluminantDefault)
 		score := math.Sqrt(math.Pow(lab.A, 2)+math.Pow(lab.B, 2)) *
 			(1 - lab.L/200) *
 			math.Sqrt(float64(count))

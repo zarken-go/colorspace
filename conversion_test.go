@@ -39,13 +39,23 @@ func TestSrgbToXyz(t *testing.T) {
 
 func TestIntToRGB(t *testing.T) {
 	rgb := IntToRGB(2822550)
-	assert.Equal(t, 43, rgb.Red)
-	assert.Equal(t, 17, rgb.Green)
-	assert.Equal(t, 150, rgb.Blue)
+	assert.Equal(t, uint8(43), rgb.Red)
+	assert.Equal(t, uint8(17), rgb.Green)
+	assert.Equal(t, uint8(150), rgb.Blue)
+
+	rgb = UInt32ToRGB(2822550)
+	assert.Equal(t, uint8(43), rgb.Red)
+	assert.Equal(t, uint8(17), rgb.Green)
+	assert.Equal(t, uint8(150), rgb.Blue)
 }
 
 func TestIntToLab(t *testing.T) {
 	Lab := IntToLab(2848150, IlluminantDefault)
+	assert.InDelta(t, 46.226667406495, Lab.L, assertDelta)
+	assert.InDelta(t, -11.528703049555, Lab.A, assertDelta)
+	assert.InDelta(t, -24.496721810427, Lab.B, assertDelta)
+
+	Lab = UInt32ToLab(2848150, IlluminantDefault)
 	assert.InDelta(t, 46.226667406495, Lab.L, assertDelta)
 	assert.InDelta(t, -11.528703049555, Lab.A, assertDelta)
 	assert.InDelta(t, -24.496721810427, Lab.B, assertDelta)
