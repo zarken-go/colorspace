@@ -30,16 +30,16 @@ type Lab struct {
 
 func IntToRGB(color int) RGB {
 	return RGB{
-		Red:   uint8(color >> 16) & 0xff,
-		Green: uint8(color >> 8) & 0xff,
+		Red:   uint8(color>>16) & 0xff,
+		Green: uint8(color>>8) & 0xff,
 		Blue:  uint8(color) & 0xff,
 	}
 }
 
 func UInt32ToRGB(color uint32) RGB {
 	return RGB{
-		Red:   uint8(color >> 16) & 0xff,
-		Green: uint8(color >> 8) & 0xff,
+		Red:   uint8(color>>16) & 0xff,
+		Green: uint8(color>>8) & 0xff,
 		Blue:  uint8(color) & 0xff,
 	}
 }
