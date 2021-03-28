@@ -58,7 +58,7 @@ func TestJPEGExtractingColors(t *testing.T) {
 
 func TestFileNotFound(t *testing.T) {
 	_, err := FromPath(`../not_found.jpeg`, 0xffffff)
-	assert.EqualError(t, err, `open ../not_found.jpeg: The system cannot find the file specified.`)
+	assert.True(t, os.IsNotExist(err))
 }
 
 type brokenReader struct{}
