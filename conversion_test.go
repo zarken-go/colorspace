@@ -69,6 +69,32 @@ func TestXYZ_ToLab(t *testing.T) {
 	assert.InDelta(t, 54.779683776742, Lab.B, assertDelta)
 }
 
+func TestRGB_ToHSL(t *testing.T) {
+	// Red Max
+	HSL := RGB{Red: 123, Green: 120, Blue: 34}.ToHSL()
+	assert.InDelta(t, 57.977528089887, HSL.Hue, assertDelta)
+	assert.InDelta(t, 0.566878980891, HSL.Saturation, assertDelta)
+	assert.InDelta(t, 0.307843137254, HSL.Lightness, assertDelta)
+
+	// Green Max
+	HSL = RGB{Red: 10, Green: 120, Blue: 34}.ToHSL()
+	assert.InDelta(t, 133.090909090909, HSL.Hue, assertDelta)
+	assert.InDelta(t, 0.846153846153, HSL.Saturation, assertDelta)
+	assert.InDelta(t, 0.254901960784, HSL.Lightness, assertDelta)
+
+	// Blue Max
+	HSL = RGB{Red: 10, Green: 120, Blue: 234}.ToHSL()
+	assert.InDelta(t, 210.535714285714, HSL.Hue, assertDelta)
+	assert.InDelta(t, 0.918032786885, HSL.Saturation, assertDelta)
+	assert.InDelta(t, 0.478431372549, HSL.Lightness, assertDelta)
+
+	// Zero Delta
+	HSL = RGB{Red: 17, Green: 17, Blue: 17}.ToHSL()
+	assert.InDelta(t, 0, HSL.Hue, assertDelta)
+	assert.InDelta(t, 0, HSL.Saturation, assertDelta)
+	assert.InDelta(t, 0.066666666666, HSL.Lightness, assertDelta)
+}
+
 func TestIlluminants(t *testing.T) {
 	XYZ := XYZ{X: 0.56, Y: 0.45, Z: 0.13}
 	Lab := XYZ.ToLab(IlluminantATwo)

@@ -10,6 +10,12 @@ type RGB struct {
 	Blue  uint8
 }
 
+type HSL struct {
+	Hue        float64
+	Saturation float64
+	Lightness  float64
+}
+
 type SRGB struct {
 	Red   float64
 	Green float64
@@ -64,6 +70,38 @@ func (RGB RGB) ToSRGB() SRGB {
 		Green: rgbToSRGBStep(RGB.Green),
 		Blue:  rgbToSRGBStep(RGB.Blue),
 	}
+}
+
+func (RGB RGB) ToHSL() HSL {
+	return toHSL(
+		float64(RGB.Red)/255.0,
+		float64(RGB.Green)/255.0,
+		float64(RGB.Blue)/255.0,
+	)
+}
+
+// toHSL helper where r, g, and b are in the range of [0-1].
+func toHSL(r, g, b float64) HSL {
+	cMax := math.Max(r, math.Max(g, b))
+	cMin := math.Min(r, math.Min(g, b))
+	delta := cMax - cMin
+
+	Result := HSL{
+		Lightness: (cMax + cMin) / 2.0,
+	}
+
+	if delta != 0 {
+		Result.Saturation = delta / (1 - math.Abs((2*Result.Lightness)-1))
+		if cMax == r {
+			Result.Hue = 60 * math.Mod((g-b)/delta, 6)
+		} else if cMax == g {
+			Result.Hue = 60 * (((b - r) / delta) + 2)
+		} else if cMax == b {
+			Result.Hue = 60 * (((r - g) / delta) + 4)
+		}
+	}
+
+	return Result
 }
 
 func rgbToSRGBStep(value uint8) float64 {
